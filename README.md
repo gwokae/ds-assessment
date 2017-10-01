@@ -22,7 +22,7 @@ npm start
 
 As mentioned like above. I think I'll expected to use a **busy polling** method to fetch updates from server. Despite busy polling is arguably considered an anti-pattern method nowadays. Because **busy polling** not only caused server side busy but also networking and client side's computation overhead. So it's more popular to use modern **server push**.
 
-And its also not defined how an event can considered as readed. I'll try to detect `mouseover` and `touchstart` to mark the item as read.
+And its also not defined how an event can considered as readed. I'll try to detect `click` to mark the item as read.
 
 #### API
 
@@ -49,6 +49,13 @@ sample of `/new-alarm-events/`
 ```
 In order to demo, everytime a API triggered, it will have a chance to automatically add a new event.
 
+## Memo
+
+In order to execute `eslint` in global context for something like editors, please execute following command
+
+```
+ npm i -g eslint eslint-config-airbnb-base eslint-plugin-import eslint-plugin-react eslint-plugin-jsx
+ ```
 
 ## Author
 

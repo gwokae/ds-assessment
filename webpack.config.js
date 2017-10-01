@@ -3,7 +3,7 @@ let HtmlWebpackPlugin = require('html-webpack-plugin');
 let src = path.resolve(__dirname, './client');
 
 module.exports = {
-	entry: path.resolve(src, 'index.js'),
+	entry: ['whatwg-fetch', path.resolve(src, 'index.js')],
 	output: {
 		filename: '[name].js',
 		path: path.resolve(__dirname, 'dist'),

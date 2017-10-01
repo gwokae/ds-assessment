@@ -10,10 +10,10 @@ const server = new WebpackDevServer(compiler, {
 	},
 	before(app) {
 		app.use(simpleApiMiddleware);
-	}
+	},
 });
 
-const {host = '0.0.0.0', port = 6612} = webpackConfig.devServer;
+const { host = '0.0.0.0', port = 6612 } = webpackConfig.devServer;
 server.listen(port, host, () => {
 	console.log(`Starting server on http://${host}:${port}`);
 });
