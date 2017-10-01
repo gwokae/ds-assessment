@@ -17,9 +17,9 @@ class EventItem extends React.Component {
 			<li onClick={() => actions.eventReaded(this.props.event)} title='click to mark as read'>
 				<img src={thumbnail} title={`event on camera_id: ${cameraId}`}/>
 				<span title={`Event Id: ${eventId} Camera Id: ${cameraId} @ ${ts}` }>
-					Camera <span class='content'>{cameraId}</span>{' '}
-					detected <span class='content'>{prediction}</span>{' '}
-					at <span class='content'>{new Date(ts).toString()}</span>{' '}
+					Camera <span className='content'>{cameraId}</span>{' '}
+					detected <span className='content'>{prediction}</span>{' '}
+					at <span className='content'>{new Date(ts).toString()}</span>{' '}
 				</span>
 			</li>
 		);

@@ -4,6 +4,6 @@ export const ACTIONS = {
 	EVENT_LIST_READY: 'EVENT_LIST_READY',
 };
 
-export const INTERVAL = 1000;
+export const INTERVAL = 100;
 
 export default { ACTIONS, INTERVAL };

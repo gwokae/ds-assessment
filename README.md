@@ -2,12 +2,22 @@
 
 An assessment for a company. The company name masked for security.
 
-## Installation
+## Install
+
+Please make sure you had a up to date [node.js](https://nodejs.org/en/) (only tested on v8.6.0) installed. If not, I recommand to install nodejs via [nvm](https://github.com/creationix/nvm) on osx or linux.
 
 ```
 npm install
+```
+
+## start server
+
+```
 npm start
 ```
+
+Once your server started, you can [Click here](http://localhost:6612/) .
+
 
 
 ## Design

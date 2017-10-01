@@ -25,7 +25,7 @@ module.exports = (req, res, next) => {
 	let event;
 	if (match) {
 		// randomly insert new event
-		if (Date.now() - lastInsert > 5000 && Math.random() < 0.05) {
+		if (Date.now() - lastInsert > 5000 && Math.random() < 0.03) {
 			addEvent();
 		}
 
