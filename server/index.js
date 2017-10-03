@@ -1,7 +1,8 @@
 const Webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const webpackConfig = require('../webpack.config');
-const simpleApiMiddleware = require('./simpleApiMiddleware');
+const { simpleApiMiddleware } = require('./DataManager');
+require('./socketio');
 
 const compiler = Webpack(webpackConfig);
 const server = new WebpackDevServer(compiler, {

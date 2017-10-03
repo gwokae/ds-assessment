@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import io from 'socket.io-client';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { ACTIONS, INTERVAL } from '../constants';
+import { ACTIONS } from '../constants';
 
-class EventList extends React.Component {
+class Communication extends React.Component {
 	render() {
 		return this.props.children;
 	}
@@ -17,7 +18,17 @@ class EventList extends React.Component {
 	}
 
 	componentDidMount() {
-		this.fetchNewEvents();
+		// this.fetchNewEvents();
+		this.socket = io('http://localhost:5612/');
+		this.socket.on('connect', () => console.log('ws connected'));
+		this.socket.on('disconnect', () => console.log('ws disconnected'));
+		this.socket.on('event', e => console.log('ws event', e));
+		this.socket.on('unread_events', this.onEventsUpdate.bind(this));
+		this.socket.connect();
+	}
+
+	onEventsUpdate(unreadEvents) {
+		this.props.actions.renderEvents(unreadEvents);
 	}
 
 	fetchNewEvents() {
@@ -25,30 +36,21 @@ class EventList extends React.Component {
 			.then(res => res.json())
 			.then((events) => {
 				this.props.actions.renderEvents(events);
-				this.fetchNewEventsTimeoutId = setTimeout(() => this.fetchNewEvents(), INTERVAL);
 			});
 	}
 
 	markEventReaded() {
 		let { readedEventId: id } = this.props;
 
-		if (this.fetchNewEventsTimeoutId) {
-			clearTimeout(this.fetchNewEventsTimeoutId);
-			this.fetchNewEventsTimeoutId = 0;
-		}
 		if (id !== null || id !== undefined) {
 			return fetch(`/event-viewed/${id}`)
-				.then((res) => {
-					this.fetchNewEvents();
-					return res.json();
-				});
+				.then(res => (res.json()));
 		}
-
-		return this.fetchNewEvents();
+		return null;
 	}
 }
 
-EventList.propTypes = {
+Communication.propTypes = {
 	actions: PropTypes.object.isRequired,
 	children: PropTypes.object.isRequired,
 	readedEventId: PropTypes.any,
@@ -65,4 +67,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(EventList);
+)(Communication);

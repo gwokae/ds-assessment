@@ -20,7 +20,15 @@ let addEvent = (event = generateNewEvent()) => {
 };
 addEvent();
 
-module.exports = (req, res, next) => {
+const getUnreadEvents = () => db.filter(item => !item.read);
+
+const eventListenerDb = {};
+const on = (event, func) => {
+	if (!eventListenerDb[event]) eventListenerDb[event] = [];
+	eventListenerDb[event].push(func);
+};
+
+let simpleApiMiddleware = (req, res, next) => {
 	let match = req.url.match(apiRe);
 	let event;
 	if (match) {
@@ -38,7 +46,7 @@ module.exports = (req, res, next) => {
 			resObject = db;
 			break;
 		case 'new-alarm-events':
-			resObject = db.filter(item => !item.read);
+			resObject = getUnreadEvents();
 			break;
 		case 'event-viewed':
 			event = db[id];
@@ -47,6 +55,9 @@ module.exports = (req, res, next) => {
 				resObject = { result: 'ok', event };
 			} else {
 				resObject = { errorCode: 404, message: `Event not found ${id}` };
+			}
+			if (eventListenerDb['event-viewed']) {
+				eventListenerDb['event-viewed'].forEach( func => func(resObject));
 			}
 			break;
 		default:
@@ -63,4 +74,11 @@ module.exports = (req, res, next) => {
 	} else {
 		next();
 	}
+};
+
+module.exports = {
+	simpleApiMiddleware,
+	addEvent,
+	getUnreadEvents,
+	on
 };
