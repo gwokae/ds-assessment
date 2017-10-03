@@ -4,4 +4,4 @@ export const ACTIONS = {
 	EVENT_LIST_READY: 'EVENT_LIST_READY',
 };
 
-export default { ACTIONS, INTERVAL };
+export default { ACTIONS };

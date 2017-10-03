@@ -22,7 +22,17 @@ Once your server started, you can [Click here](http://localhost:6612/) .
 
 ## Design
 
-### v0.0.1 - fulfill requirements
+### `v0.0.2-preview` - simple websocket server + client updates
+
+based `v0.0.1`, I added a simple websocket server. And server will push unread events to client when following condition
+
+* websocket client connected
+* new unread event added
+* unread event marked as readed
+
+However, this version implemented in a very limited time. So it may not organized well and probaly buggy.
+
+### `v0.0.1` - fulfill requirements
 
 **Despite I'll mentioned some suggestions in below, but I'll simply fulfill requirements in the first place.**
 
