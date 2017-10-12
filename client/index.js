@@ -12,6 +12,7 @@ const store = createStore(reducer);
 ReactDOM.render(
 	(
 		<Provider store={store}>
+
 			<Communication>
 				<EventList/>
 			</Communication>

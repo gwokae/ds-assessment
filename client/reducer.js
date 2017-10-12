@@ -1,7 +1,12 @@
 import { ACTIONS } from './constants';
 
-export default (state = { events: [], readedEventId: false }, action) => {
+export default (state = { events: [], readedEventId: false, sort: 'desc' }, action) => {
 	switch (action.type) {
+	case ACTIONS.SORT_CHANGE:
+		return {
+			...state,
+			sort: action.sort,
+		};
 	case ACTIONS.EVENTS_FETCHED:
 		return {
 			...state,
