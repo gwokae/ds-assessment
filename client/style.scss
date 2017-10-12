@@ -10,6 +10,26 @@ ul {
 
 		.details {
 			display: none;
+			padding: 10px;
+			background: #969;
+			position: relative;
+			height: 160px;
+			h3 {
+				display: inline-block;
+				width: calc(100% - 180px);
+			}
+			h3, .label:fitst-of-type() {
+				margin-left: 160px;
+			}
+			button {
+				position: absolute;
+				top: 5px;
+				right: 5px;
+			}
+			img {
+				float: left;
+				margin-right: 3px;
+			}
 		}
 
 		&.open .details {
@@ -21,4 +41,16 @@ ul {
 span.content {
 	color: #393;
 	font-weight: bold;
+}
+
+span.label {
+	padding: 3px;
+	border-radius: 3px;
+	background-color: Gold;
+	margin-right: 6px;
+	color: #ccc;
+
+	&.marked {
+		background-color: DarkGoldenRod;
+	}
 }

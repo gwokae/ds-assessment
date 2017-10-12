@@ -6,3 +6,4 @@ export const ACTIONS = {
 };
 
 export default { ACTIONS };
+export const TAGS = ['people', 'car', 'animal', 'ufo'];
