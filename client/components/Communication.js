@@ -32,7 +32,7 @@ class Communication extends React.Component {
 	}
 
 	fetchNewEvents() {
-		return fetch('/new-alarm-events')
+		return fetch('/events')
 			.then(res => res.json())
 			.then((events) => {
 				this.props.actions.renderEvents(events);

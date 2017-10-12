@@ -5,12 +5,12 @@ let dataManager = require('./DataManager');
 
 io.on('connection', (socket) => {
 	console.log('a user connected');
-	let emitUnreadEvents = () => {
-		socket.emit('unread_events', dataManager.getUnreadEvents());
+	let emitEvents = () => {
+		socket.emit('unread_events', dataManager.getEvents());
 	};
-	emitUnreadEvents();
+	emitEvents();
 
-	dataManager.on('event-viewed', emitUnreadEvents);
+	dataManager.on('event-viewed', emitEvents);
 	dataManager.on('event-viewed', () => console.log('event mark as read'));
 
 	// random add new event
@@ -18,7 +18,7 @@ io.on('connection', (socket) => {
 		if (Math.random() < 0.1) {
 			console.log('new event added');
 			dataManager.addEvent();
-			emitUnreadEvents();
+			emitEvents();
 		}
 	}, 500);
 });

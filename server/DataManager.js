@@ -21,6 +21,7 @@ let addEvent = (event = generateNewEvent()) => {
 addEvent();
 
 const getUnreadEvents = () => db.filter(item => !item.read);
+const getEvents = () => db;
 
 const eventListenerDb = {};
 const on = (event, func) => {
@@ -57,7 +58,7 @@ let simpleApiMiddleware = (req, res, next) => {
 				resObject = { errorCode: 404, message: `Event not found ${id}` };
 			}
 			if (eventListenerDb['event-viewed']) {
-				eventListenerDb['event-viewed'].forEach( func => func(resObject));
+				eventListenerDb['event-viewed'].forEach(func => func(resObject));
 			}
 			break;
 		default:
@@ -79,6 +80,7 @@ let simpleApiMiddleware = (req, res, next) => {
 module.exports = {
 	simpleApiMiddleware,
 	addEvent,
+	getEvents,
 	getUnreadEvents,
-	on
+	on,
 };

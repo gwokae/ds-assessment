@@ -3,8 +3,18 @@ ul {
 	padding: 0;
 	font-size: 18px;
 	font-family: serif;
-	li:hover {
-		background: #ccc;
+	li {
+		&:hover {
+			background: #ccc;
+		}
+
+		.details {
+			display: none;
+		}
+
+		&.open .details {
+			display: block;
+		}
 	}
 }
 

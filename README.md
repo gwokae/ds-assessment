@@ -22,6 +22,12 @@ Once your server started, you can [Click here](http://localhost:6612/) .
 
 ## Design
 
+### `v0.0.2-preview-2`
+
+* show all events and add an indicator about read/unread
+* order of events
+* detail view of events
+
 ### `v0.0.2-preview` - simple websocket server + client updates
 
 based `v0.0.1`, I added a simple websocket server. And server will push unread events to client when following condition
