@@ -22,6 +22,11 @@ Once your server started, you can [Click here](http://localhost:6612/) .
 
 ## Design
 
+### `v0.0.2-preview-3`
+
+* fix bugs on `v0.0.2-preview-2`
+* add API to support toggle tags
+
 ### `v0.0.2-preview-2`
 
 * show all events and add an indicator about read/unread
