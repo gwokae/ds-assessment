@@ -10,8 +10,7 @@ io.on('connection', (socket) => {
 	};
 	emitEvents();
 
-	dataManager.on('event-viewed', emitEvents);
-	dataManager.on('event-viewed', () => console.log('event mark as read'));
+	dataManager.on('events-updated', emitEvents);
 
 	// random add new event
 	setInterval(() => {

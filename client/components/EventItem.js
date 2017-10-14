@@ -47,7 +47,7 @@ class EventItem extends React.Component {
 					<h3>Title: {`Event Id: ${eventId} Camera Id: ${cameraId} @ ${ts}`}</h3>
 					<button onClick={ this.itemOnClick }>X</button>
 					{ TAGS.map((tag, i) => (
-						<Tag name={tag} key={i} marked={prediction === tag} event={event} />
+						<Tag name={tag} key={i} marked={prediction.split(', ').indexOf(tag)>-1} event={event} />
 					)) }
 				</div>
 			</li>

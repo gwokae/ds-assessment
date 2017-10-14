@@ -1,6 +1,7 @@
-const apiRe = /^\/(events|new-alarm-events|event-viewed)(\/([a-zA-Z0-9]+))?$/;
+const apiRe = /^\/(events|new-alarm-events|event-viewed|event)(\/([a-zA-Z0-9]+))?(\/toggleTag\/(\S+))?$/;
 const db = [];
 const possiblePredictions = ['people', 'car', 'animal', 'ufo'];
+const PREDICTION_DEIM = ', ';
 let generateNewEvent = () => {
 	let { length: id } = db;
 	return {
@@ -13,10 +14,8 @@ let generateNewEvent = () => {
 	};
 };
 
-let lastInsert;
 let addEvent = (event = generateNewEvent()) => {
 	db.push(event);
-	lastInsert = Date.now();
 };
 addEvent();
 
@@ -29,15 +28,23 @@ const on = (event, func) => {
 	eventListenerDb[event].push(func);
 };
 
+const triggerEventsUpdated = (data) => {
+	if (eventListenerDb['events-updated']) {
+		eventListenerDb['events-updated'].forEach(func => func(data));
+	}
+};
+
+const getNotFoundMessage = (id) => ({ errorCode: 404, message: `Event not found ${id}` });
+const toggleElement = (arr = [], val) => {
+	if (arr.indexOf(val) === -1) {
+		return [...arr, val];
+	}
+	return arr.filter(item => item !== val);
+};
 let simpleApiMiddleware = (req, res, next) => {
 	let match = req.url.match(apiRe);
 	let event;
 	if (match) {
-		// randomly insert new event
-		if (Date.now() - lastInsert > 5000 && Math.random() < 0.03) {
-			addEvent();
-		}
-
 		// process req
 		let resObject;
 		const action = match[1];
@@ -45,6 +52,20 @@ let simpleApiMiddleware = (req, res, next) => {
 		switch (action) {
 		case 'events':
 			resObject = db;
+			break;
+		case 'event':
+			event = db[id];
+			if (event) {
+				if (!match[5]) {
+					resObject = { errorCode: 400, message: 'We only support \'/event/{id}/toggleTag/{tag}\'' };
+				} else {
+					event.prediction = toggleElement(event.prediction.split(PREDICTION_DEIM), match[5]).filter(s => s !== '').join(PREDICTION_DEIM);
+					triggerEventsUpdated();
+					resObject = { result: 'ok', event };
+				}
+			} else {
+				resObject = getNotFoundMessage(id);
+			}
 			break;
 		case 'new-alarm-events':
 			resObject = getUnreadEvents();
@@ -54,11 +75,9 @@ let simpleApiMiddleware = (req, res, next) => {
 			if (event) {
 				event.read = true;
 				resObject = { result: 'ok', event };
+				triggerEventsUpdated();
 			} else {
-				resObject = { errorCode: 404, message: `Event not found ${id}` };
-			}
-			if (eventListenerDb['event-viewed']) {
-				eventListenerDb['event-viewed'].forEach(func => func(resObject));
+				resObject = getNotFoundMessage(id);
 			}
 			break;
 		default:
