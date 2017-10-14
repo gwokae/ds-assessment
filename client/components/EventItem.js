@@ -23,8 +23,11 @@ class EventItem extends React.Component {
 
 		let open = openEventIds.indexOf(eventId) > -1;
 
-		let checkboxProps = {};
-		if (read) checkboxProps.checked = true;
+		let checkboxProps = {
+			readOnly: true,
+			onChange: () => {},
+			checked: read,
+		};
 
 		return (
 			<li key='main' className={ open ? 'open' : '' } >
