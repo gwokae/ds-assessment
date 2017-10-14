@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { ACTIONS, TAGS } from '../constants';
 
+let initTs = Date.now();
+
 class EventItem extends React.Component {
 	constructor(props) {
 		super(props);
@@ -41,7 +43,7 @@ class EventItem extends React.Component {
 					</span>
 				</div>
 				<div className='details'>
-					<img src={`http://lorempixel.com/150/150/?${performance.now()}`} />
+					<img src={`http://lorempixel.com/150/150/?${initTs + eventId}`} />
 					<h3>Title: {`Event Id: ${eventId} Camera Id: ${cameraId} @ ${ts}`}</h3>
 					<button onClick={ this.itemOnClick }>X</button>
 					{ TAGS.map((tag, i) => (
