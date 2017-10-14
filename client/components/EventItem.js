@@ -8,13 +8,11 @@ class EventItem extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { open: false };
-
 		this.itemOnClick = this.itemOnClick.bind(this);
 	}
 
 	render() {
-		let { event } = this.props;
+		let { event, openEventIds = [] } = this.props;
 		let {
 			event_id: eventId,
 			camera_id: cameraId,
@@ -23,11 +21,13 @@ class EventItem extends React.Component {
 			read,
 		} = event;
 
+		let open = openEventIds.indexOf(eventId) > -1;
+
 		let checkboxProps = {};
 		if (read) checkboxProps.checked = true;
 
 		return (
-			<li key='main' className={this.state.open ? 'open' : ''} >
+			<li key='main' className={ open ? 'open' : '' } >
 				<div onClick={ this.itemOnClick } title='click to mark as read & expand details'>
 					<input type='checkbox' readOnly {...checkboxProps} />
 					<img src={thumbnail} title={`event on camera_id: ${cameraId}`}/>
@@ -41,7 +41,9 @@ class EventItem extends React.Component {
 					<img src={`http://lorempixel.com/150/150/?${performance.now()}`} />
 					<h3>Title: {`Event Id: ${eventId} Camera Id: ${cameraId} @ ${ts}`}</h3>
 					<button onClick={ this.itemOnClick }>X</button>
-					{ TAGS.map((tag, i) => <Tag name={tag} key={i} marked={prediction === tag} event={event} />) }
+					{ TAGS.map((tag, i) => (
+						<Tag name={tag} key={i} marked={prediction === tag} event={event} />
+					)) }
 				</div>
 			</li>
 		);
@@ -54,15 +56,13 @@ class EventItem extends React.Component {
 		if (event.read === false) actions.eventReaded(event);
 
 		// toggle details
-		this.setState({ open: !this.state.open });
-	}
-
-	tagOnClick(e) {
+		actions.toggleEventDetails(event);
 	}
 }
 
 EventItem.propTypes = {
 	event: PropTypes.object.isRequired,
+	openEventIds: PropTypes.array,
 	actions: PropTypes.object.isRequired,
 };
 
@@ -88,6 +88,7 @@ const mapStateToProps = state => (state);
 const mapDispatchToProps = dispatch => ({
 	actions: bindActionCreators({
 		eventReaded: ({ event_id: eventId }) => ({ type: ACTIONS.EVENT_READED, eventId }),
+		toggleEventDetails: ({ event_id: eventId }) => ({ type: ACTIONS.TOGGLE_DETAILS, eventId }),
 	}, dispatch),
 });
 

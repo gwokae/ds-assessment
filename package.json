@@ -1,6 +1,6 @@
 {
 	"name": "ds-assessment",
-	"version": "0.0.2-preview-2",
+	"version": "0.0.2-preview-3",
 	"description": "An assessment for a company. The company name masked for security.",
 	"main": "index.js",
 	"scripts": {

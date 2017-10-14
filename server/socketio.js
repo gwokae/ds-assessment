@@ -15,7 +15,7 @@ io.on('connection', (socket) => {
 
 	// random add new event
 	setInterval(() => {
-		if (Math.random() < 0.1) {
+		if (Math.random() < 0.05) {
 			console.log('new event added');
 			dataManager.addEvent();
 			emitEvents();

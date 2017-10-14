@@ -1,7 +1,20 @@
 import { ACTIONS } from './constants';
 
+const toggleElement = (arr = [], val) => {
+	if (arr.indexOf(val) === -1) {
+		return [...arr, val];
+	}
+	return arr.filter(item => item !== val);
+};
+
 export default (state = { events: [], readedEventId: false, sort: 'desc' }, action) => {
-	switch (action.type) {
+	const { type, eventId } = action;
+	switch (type) {
+	case ACTIONS.TOGGLE_DETAILS:
+		return {
+			...state,
+			openEventIds: toggleElement(state.openEventIds, eventId),
+		};
 	case ACTIONS.SORT_CHANGE:
 		return {
 			...state,
@@ -15,7 +28,7 @@ export default (state = { events: [], readedEventId: false, sort: 'desc' }, acti
 	case ACTIONS.EVENT_READED:
 		return {
 			...state,
-			readedEventId: action.eventId,
+			readedEventId: eventId,
 		};
 	default:
 		return state;
